@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import Greeting from "./utils/greetings.js";
-
-const main=()=>{
+import CLI from "./utils/cli.js";
+const main=async()=>{
     Greeting();
+    await CLI();
 }
 main();
