@@ -1,9 +1,7 @@
 import pkg from "enquirer";
 const { prompt } = pkg;
 import jsonFile from "jsonfile";
-import process from "process";
-
-const pwd = process.cwd();
+import Greeting from './greetings.js';
 
 async function getDetails() {
   const question = [
@@ -30,18 +28,13 @@ async function getDetails() {
     console.log(error);
   }
 }
-
-export default async function user() {
+export async function init() {
   try {
     const apikey = await jsonFile.readFile("apikey.json");
     if (apikey) return apikey;
     else throw error;
-    // const id = JSON.parse(apikey);
-    // if (id.length > 1) {
-    //   console.log("sg");
-    //   return id;
-    // }
   } catch (error) {
+    Greeting(); 
     const details = await getDetails();
     jsonFile.writeFile("apikey.json", details, (error) => {
       if (error) {
@@ -51,4 +44,14 @@ export default async function user() {
     console.log("");
     return details;
   }
+}
+
+export async function update(){
+    const details = await getDetails();
+    jsonFile.writeFile("apikey.json", details, (error) => {
+      if (error) {
+        console.log(error);
+      }
+    });
+    console.log("");
 }
